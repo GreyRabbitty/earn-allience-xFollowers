@@ -2,7 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 
-import { HasuraWebhooksModule } from '../src/hasura-webhooks.module';
+import { HasuraWebhooksModule } from './../src/hasura-webhooks.module';
 
 describe('HasuraWebhooksController (e2e)', () => {
   let app: INestApplication;

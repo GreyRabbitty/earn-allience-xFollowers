@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import axios from 'axios';
 import {
   Connection,
   Workflow,
@@ -7,11 +8,10 @@ import {
   WorkflowStartOptions,
 } from '@temporalio/client';
 import { WorkflowExecutionAlreadyStartedError } from '@temporalio/workflow';
-import axios from 'axios';
-
-import { API_KEY } from 'apps/hasura-webhooks/src/config/apiKey';
 
 import { ConfigService } from '@app/config';
+
+import { API_KEY } from 'apps/game-twitter-follower/src/config/apikey';
 
 @Injectable()
 export class TemporalClientService {
@@ -67,10 +67,8 @@ export class TemporalClientService {
     return client.execute<T>(workflow, options);
   }
 
-  /**
-   * Start to retired the following accounts info
-   * @param id
-   */
+  // Game Twitter Follower Controller
+
   async getFollowerAccounts(
     id: string,
   ) {
@@ -209,16 +207,16 @@ export class TemporalClientService {
     ]
 
     let newFollowers = followerIdList.filter(x => !testArr.includes(x));
-    let unfollowers = testArr.filter(x => !followerIdList.includes(x));
-    let unfollwersDetails = await this.getUserDate(unfollowers.toString());
-    delay(500);
-    let newFollwersDetails = await this.getUserDate(newFollowers.toString());
+    // let unfollowers = testArr.filter(x => !followerIdList.includes(x));
+    // let unfollwersDetails = await this.getUserDate(unfollowers.toString());
+    // delay(500);
+    // let newFollwersDetails = await this.getUserDate(newFollowers.toString());
 
     return {
-      unfollowers,
+      // unfollowers,
       newFollowers,
-      unfollwersDetails,
-      newFollwersDetails
+      // unfollwersDetails,
+      // newFollwersDetails
     };
   }
 }

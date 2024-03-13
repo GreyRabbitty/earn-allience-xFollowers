@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { ConfigModule } from '@app/config';
 import { DatabaseModule } from '@app/database';
 import { LoggingModule } from '@app/logging';
-import { TemporalClientModule } from '@app/temporal';
+import { TemporalWorkerModule } from '@app/temporal';
 
 import dbConfig from './config/database';
 import temporalConfig from './config/temporal';
-import { WallPostsController, GameTwitterFollowersController } from './controllers/wall-posts.controller';
+import { WallPostCommand } from './game-twitter-followers.command';
 
 @Module({
   imports: [
@@ -16,12 +16,11 @@ import { WallPostsController, GameTwitterFollowersController } from './controlle
     ConfigModule.forRoot({
       load: [temporalConfig, dbConfig],
     }),
+    TemporalWorkerModule,
     DatabaseModule,
-    TypeOrmModule.forFeature(dbConfig().entities),
     LoggingModule.forRoot(),
-    TemporalClientModule,
+    TypeOrmModule.forFeature(dbConfig().entities),
   ],
-  controllers: [WallPostsController, GameTwitterFollowersController],
-  providers: [],
+  providers: [WallPostCommand],
 })
-export class HasuraWebhooksModule {}
+export class WallPostWorkerModule {}
